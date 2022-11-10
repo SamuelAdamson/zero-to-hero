@@ -1,7 +1,7 @@
 class Solution {
 public:
     string removeDuplicates(string s) {
-        vector<char> st;
+        string st = "";
         
         for(int i = 0; i < s.length(); i++) {
             if(st.empty()) st.push_back(s[i]);
@@ -11,6 +11,6 @@ public:
             }
         }
         
-        return string(st.begin(), st.end());
+        return st;
     }
 };
