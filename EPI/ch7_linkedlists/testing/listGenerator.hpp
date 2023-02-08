@@ -8,37 +8,35 @@
 class ListGenerator {
 public :
 
-    static std::shared_ptr<Node<int>> ListGenerator::makeList(std::vector<int> v) {
-        auto head = std::make_shared<Node<int>>();
-        auto crawl = head;
+    static std::shared_ptr<ListNode<int>> makeList(std::vector<int> v) {
+        auto dummyHead = std::make_shared<ListNode<int>>();
+        auto crawl = dummyHead;
 
         for(int n : v) {
-            crawl->data = n;
+            auto node = std::make_shared<ListNode<int>>();
+            node->data = n;
             
-            auto node = std::make_shared<Node<int>>();
             crawl->next = node;
-
             crawl = crawl->next;
         }
 
-        return head;
+        return dummyHead->next;
     }
 
-    static std::shared_ptr<DoubleNode<int>> ListGenerator::makeDoubleList(std::vector<int> v) {
-        auto head = std::make_shared<DoubleNode<int>>();
-        auto crawl = head;
+    static std::shared_ptr<DoubleNode<int>> makeDoubleList(std::vector<int> v) {
+        auto dummyHead = std::make_shared<DoubleNode<int>>();
+        auto crawl = dummyHead;
 
-        for(int n : v) {
-            crawl->data = n;
-
+        for(int i = 0; i < v.size(); i++) {
             auto node = std::make_shared<DoubleNode<int>>();
-            node->last = crawl;
+            node->data = v[i];
+            
+            if(i) node->last = crawl;
             crawl->next = node;
-
             crawl = crawl->next;
         }
 
-        return head;
+        return dummyHead->next;
     }
 };
 
