@@ -1,6 +1,7 @@
 #include "tree/binaryTreeNode.hpp"
 #include <vector>
 #include <queue>
+#include <optional>
 
 #ifndef TREEGENERATOR_H
 #define TREEGENERATOR_H
@@ -8,19 +9,28 @@
 class TreeGenerator {
 public :
 
-    static std::unique_ptr<BinaryTreeNode<int>> GenerateBinaryTree(std::vector<std::unique_ptr<BinaryTreeNode<int>>> &nodes) {
-        if(nodes.empty()) return nullptr;
-        
-        int levelSize = 1, i, k;
-        std::queue<std::unique_ptr<BinaryTreeNode<int>>> q;
-        q.push(nodes[0]);
+    static std::shared_ptr<BinaryTreeNode<int>> MakeBinaryTree(const std::vector<std::optional<int>> &v) {
+        if(v.empty()) return nullptr;
 
-        for(i = 1; i < nodes.size(); i++) {
-            
+        std::shared_ptr<BinaryTreeNode<int>> curr;
+        std::shared_ptr<BinaryTreeNode<int>> h = !v[0] ? nullptr : std::make_shared<BinaryTreeNode<int>>(
+            BinaryTreeNode<int>({v[0].value(), nullptr, nullptr})
+        );
+        std::queue<std::shared_ptr<BinaryTreeNode<int>>> q({h});
 
+        for(int i = 1; i < v.size(); i += 2) {
+            curr = q.front();
+            q.pop();
 
+            if(!curr) continue;    
+            curr->left = v[i] ? std::make_shared<BinaryTreeNode<int>>(BinaryTreeNode<int>({v[i].value(), nullptr, nullptr})) : nullptr;
+            curr->right = v[i+1] ? std::make_shared<BinaryTreeNode<int>>(BinaryTreeNode<int>({v[i+1].value(), nullptr, nullptr})) : nullptr;;
+
+            q.push(curr->left);
+            q.push(curr->right);
         }
-    
+
+        return h;
     }
 
 
