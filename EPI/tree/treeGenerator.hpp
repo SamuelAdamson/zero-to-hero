@@ -1,4 +1,4 @@
-#include "tree/binaryTreeNode.hpp"
+#include "binaryTreeNode.hpp"
 #include <vector>
 #include <queue>
 #include <optional>
