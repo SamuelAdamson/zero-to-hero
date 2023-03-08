@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../../tree/treeGenerator.hpp"
+#include "tree/treeGenerator.hpp"
 
 int balanced(std::shared_ptr<BinaryTreeNode<int>> root) {
     if(!root) return 0;
