@@ -24,77 +24,116 @@ private :
 
 public :
 
-    static std::shared_ptr<BinaryTreeNode<int>> MakeBinaryTree(const std::vector<std::optional<int>> &v) {
-        if(v.empty()) return nullptr;
+    static std::shared_ptr<BinaryTreeNode<int>> MakeBinaryTree(const std::vector<std::optional<int>> &preorder) {
+        if(preorder.empty() || !preorder[0]) return nullptr;
 
-        std::shared_ptr<BinaryTreeNode<int>> curr;
-        std::shared_ptr<BinaryTreeNode<int>> h = !v[0] ? nullptr : std::make_shared<BinaryTreeNode<int>>(
-            BinaryTreeNode<int>({v[0].value(), nullptr, nullptr})
-        );
-        std::queue<std::shared_ptr<BinaryTreeNode<int>>> q({h});
+        std::shared_ptr<BinaryTreeNode<int>> curr, root = 
+            std::make_shared<BinaryTreeNode<int>>(BinaryTreeNode<int>({preorder[0].value(), nullptr, nullptr}));
+        std::queue<std::shared_ptr<BinaryTreeNode<int>>> q({root});
 
-        for(int i = 1; i < v.size(); i += 2) {
-            curr = q.front();
-            q.pop();
+        int k, i = 1;
+        while(i < preorder.size()) {
+            k = i + 2 * q.size();
 
-            if(!curr) continue;    
-            curr->left = v[i] ? std::make_shared<BinaryTreeNode<int>>(BinaryTreeNode<int>({v[i].value(), nullptr, nullptr})) : nullptr;
-            curr->right = v[i+1] ? std::make_shared<BinaryTreeNode<int>>(BinaryTreeNode<int>({v[i+1].value(), nullptr, nullptr})) : nullptr;;
+            while(i < k) {
+                curr = q.front();
+                q.pop();
 
-            q.push(curr->left);
-            q.push(curr->right);
+                if(curr) {
+                    if(preorder[i])
+                        curr->left = std::make_shared<BinaryTreeNode<int>>(BinaryTreeNode<int>({preorder[i].value(), nullptr, nullptr}));
+
+                    if(preorder[i+1])
+                        curr->right = std::make_shared<BinaryTreeNode<int>>(BinaryTreeNode<int>({preorder[i+1].value(), nullptr, nullptr}));
+
+                    q.push(curr->left);
+                    q.push(curr->right);
+                }
+                else {
+                    q.push(nullptr);
+                    q.push(nullptr);
+                }
+
+                i += 2;
+            }
         }
 
-        return h;
+        return root;
     }
 
-    static std::shared_ptr<BinaryTreePNode<int>> MakeBinaryTreeWithParentNodes(const std::vector<std::optional<int>> &v) {
-        if(v.empty()) return nullptr;
+    static std::shared_ptr<BinaryTreePNode<int>> MakeBinaryTreeWithParentNodes(const std::vector<std::optional<int>> &preorder) {
+        if(preorder.empty() || !preorder[0]) return nullptr;
 
-        std::shared_ptr<BinaryTreePNode<int>> curr;
-        std::shared_ptr<BinaryTreePNode<int>> h = !v[0] ? nullptr : std::make_shared<BinaryTreePNode<int>>(
-            BinaryTreePNode<int>({v[0].value(), nullptr, nullptr})
-        );
-        std::queue<std::shared_ptr<BinaryTreePNode<int>>> q({h});
+        std::shared_ptr<BinaryTreePNode<int>> curr, root = 
+            std::make_shared<BinaryTreePNode<int>>(BinaryTreePNode<int>({preorder[0].value(), nullptr, nullptr, nullptr}));
+        std::queue<std::shared_ptr<BinaryTreePNode<int>>> q({root});
 
-        for(int i = 1; i < v.size(); i += 2) {
-            curr = q.front();
-            q.pop();
+        int k, i = 1;
+        while(i < preorder.size()) {
+            k = i + 2 * q.size();
 
-            if(!curr) continue;    
-            curr->left = v[i] ? std::make_shared<BinaryTreePNode<int>>(BinaryTreePNode<int>({v[i].value(), nullptr, nullptr, curr})) : nullptr;
-            curr->right = v[i+1] ? std::make_shared<BinaryTreePNode<int>>(BinaryTreePNode<int>({v[i+1].value(), nullptr, nullptr, curr})) : nullptr;;
+            while(i < k) {
+                curr = q.front();
+                q.pop();
 
-            q.push(curr->left);
-            q.push(curr->right);
+                if(curr) {
+                    if(preorder[i])
+                        curr->left = std::make_shared<BinaryTreePNode<int>>(BinaryTreePNode<int>({preorder[i].value(), nullptr, nullptr, curr}));
+
+                    if(preorder[i+1])
+                        curr->right = std::make_shared<BinaryTreePNode<int>>(BinaryTreePNode<int>({preorder[i+1].value(), nullptr, nullptr, curr}));
+
+                    q.push(curr->left);
+                    q.push(curr->right);
+                }
+                else {
+                    q.push(nullptr);
+                    q.push(nullptr);
+                }
+
+                i += 2;
+            }
         }
 
-        return h;
+        return root;
     }
 
-    static std::shared_ptr<BinaryTreeNNode<int>> MakeBinaryTreeWithNumNodes(const std::vector<std::optional<int>> &v) {
-        if(v.empty()) return nullptr;
+    static std::shared_ptr<BinaryTreeNNode<int>> MakeBinaryTreeWithNumNodes(const std::vector<std::optional<int>> &preorder) {
+        if(preorder.empty() || !preorder[0]) return nullptr;
 
-        std::shared_ptr<BinaryTreeNNode<int>> curr;
-        std::shared_ptr<BinaryTreeNNode<int>> h = !v[0] ? nullptr : std::make_shared<BinaryTreeNNode<int>>(
-            BinaryTreeNNode<int>({v[0].value(), 0, nullptr, nullptr})
-        );
-        std::queue<std::shared_ptr<BinaryTreeNNode<int>>> q({h});
+        std::shared_ptr<BinaryTreeNNode<int>> curr, root = 
+            std::make_shared<BinaryTreeNNode<int>>(BinaryTreeNNode<int>({preorder[0].value(), 0, nullptr, nullptr}));
+        std::queue<std::shared_ptr<BinaryTreeNNode<int>>> q({root});
 
-        for(int i = 1; i < v.size(); i += 2) {
-            curr = q.front();
-            q.pop();
+        int k, i = 1;
+        while(i < preorder.size()) {
+            k = i + 2 * q.size();
 
-            if(!curr) continue;    
-            curr->left = v[i] ? std::make_shared<BinaryTreeNNode<int>>(BinaryTreeNNode<int>({v[i].value(), 0, nullptr, nullptr})) : nullptr;
-            curr->right = v[i+1] ? std::make_shared<BinaryTreeNNode<int>>(BinaryTreeNNode<int>({v[i+1].value(), 0, nullptr, nullptr})) : nullptr;;
+            while(i < k) {
+                curr = q.front();
+                q.pop();
 
-            q.push(curr->left);
-            q.push(curr->right);
+                if(curr) {
+                    if(preorder[i])
+                        curr->left = std::make_shared<BinaryTreeNNode<int>>(BinaryTreeNNode<int>({preorder[i].value(), 0, nullptr, nullptr}));
+
+                    if(preorder[i+1])
+                        curr->right = std::make_shared<BinaryTreeNNode<int>>(BinaryTreeNNode<int>({preorder[i+1].value(), 0, nullptr, nullptr}));
+
+                    q.push(curr->left);
+                    q.push(curr->right);
+                }
+                else {
+                    q.push(nullptr);
+                    q.push(nullptr);
+                }
+
+                i += 2;
+            }
         }
 
-        CountNodes(h);
-        return h;
+        CountNodes(root);
+        return root;
     }
 
 };
