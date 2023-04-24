@@ -1,6 +1,7 @@
 #include "binaryTreeNode.hpp"
 #include "binaryTreePNode.hpp"
 #include "binaryTreeNNode.hpp"
+#include "binaryTreeXNode.hpp"
 #include <vector>
 #include <queue>
 #include <optional>
@@ -133,6 +134,44 @@ public :
         }
 
         CountNodes(root);
+        return root;
+    }
+
+    // Note: This does NOT establish the relationship between next nodes
+    static std::shared_ptr<BinaryTreeXNode<int>> MakeBinaryTreeWithNextNode(const std::vector<std::optional<int>> &preorder) {
+        if(preorder.empty() || !preorder[0]) return nullptr;
+
+        std::shared_ptr<BinaryTreeXNode<int>> curr, root = 
+            std::make_shared<BinaryTreeXNode<int>>(BinaryTreeXNode<int>({preorder[0].value(), nullptr, nullptr, nullptr}));
+        std::queue<std::shared_ptr<BinaryTreeXNode<int>>> q({root});
+
+        int k, i = 1;
+        while(i < preorder.size()) {
+            k = i + 2 * q.size();
+
+            while(i < k) {
+                curr = q.front();
+                q.pop();
+
+                if(curr) {
+                    if(preorder[i])
+                        curr->left = std::make_shared<BinaryTreeXNode<int>>(BinaryTreeXNode<int>({preorder[i].value(), nullptr, nullptr, nullptr}));
+
+                    if(preorder[i+1])
+                        curr->right = std::make_shared<BinaryTreeXNode<int>>(BinaryTreeXNode<int>({preorder[i+1].value(), nullptr, nullptr, nullptr}));
+
+                    q.push(curr->left);
+                    q.push(curr->right);
+                }
+                else {
+                    q.push(nullptr);
+                    q.push(nullptr);
+                }
+
+                i += 2;
+            }
+        }
+
         return root;
     }
 

@@ -12,7 +12,7 @@ std::shared_ptr<BinaryTreeNode<int>> helper(
     int &i, int l, int h, int n
 ) {
     int val = preorder[i++];
-    int j = iMap.at(val), k;
+    int j = iMap[val], k;
 
     std::shared_ptr<BinaryTreeNode<int>> root = std::make_shared<BinaryTreeNode<int>>(
         BinaryTreeNode<int>({val, nullptr, nullptr}));

@@ -7,6 +7,6 @@ struct BinaryTreeNNode {
     T val;
     unsigned n;
 
-    std::shared_ptr<BinaryTreeNNode<int>> left;
-    std::shared_ptr<BinaryTreeNNode<int>> right;
+    std::shared_ptr<BinaryTreeNNode<T>> left;
+    std::shared_ptr<BinaryTreeNNode<T>> right;
 };
