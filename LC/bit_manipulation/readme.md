@@ -1,0 +1,1 @@
+The bit manipulation directory was created late. There are lots of bit manipulation problems which are not in this directory.
