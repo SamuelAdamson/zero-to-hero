@@ -7,6 +7,3 @@ Over the coming weeks, months, or even years, I will dish out a monumental effor
 * Complete and understand one Leetcode problem
 * Document the approach to each problem for better understanding
 * Accompany my practice with [reading](https://cses.fi/book/book.pdf) 
-
-### The goal.
-Although Leetcode questions are a barrier for entry on lots of software engineering jobs, my goal for this repository does not stop there. Within 1 year's time (06/28/2023), my skills will have improved to the point where I can complete Leetcode weekly and Leetcode biweekly.
